@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+   <script type="text/javascript" src="d3.js"></script>   
+    <style>
+    body {
+      font: 12px sans-serif;
+    }
+    .tick > line {
+        fill: none;
+        stroke: black;
+    }
+    .tick > text {
+        fill: black;
+    }
+    .selected {
+        stroke: red;
+        fill:red;
+    }
+    .selected2 {
+        stroke: orange;
+        fill:orange;
+    }
+    path.domain {
+        fill: none;
+        stroke-width: 2px;
+        stroke: black;
+    }
+    #wrapper {
+        clear:both;
+    }
+    #chart1 {
+        float:left;
+    }
+    #chart2{
+        float:left;
+    }
+    #chart3 {
+        float:left;
+        margin-top: 30px;
+        margin-left: 20px;
+    }
+    .brush .extent {
+        fill-opacity: .1;
+        stroke: #fff;
+        shape-rendering: crispEdges;
+    }
+
+    .circle.brushed  {
+        fill:pink;
+    }
+
+    .clicked {
+        fill:red;
+        stroke: red;
+    }
+
+    .clicked.selected2 {
+        fill: orange;
+        stroke: orange;
+    }
+
+    </style>
+
+   </head>
+   <body>
+   <div id="wrapper">
+      <div id="chart1">
+           </div>
+      <div id="chart2">
+          </div>
+      <div id="chart3">
+                <strong>SATM Score:</strong> <span id="satm"></span><br/>
+                <strong>SATV Score:</strong> <span id="satv"></span><br/>
+                <strong>ACT Score:</strong> <span id="act"></span><br/>
+                <strong>GPA:</strong> <span id="gpa"></span><br/> 
+         </div>
+   </div>
+  <script>
+   
+    var width =500;
+    var height= 500;
+
+
+    d3.csv("colleges.csv", function(csv) {
+        // for (var i=0; i<csv.length; ++i) {
+        //     csv[i].GPA = Number(csv[i].GPA);
+        //     csv[i].SATM = Number(csv[i].SATM);
+        //     csv[i].SATV = Number(csv[i].SATV);
+        //     csv[i].ACT = Number(csv[i].ACT);
+        // }
+        // var satmExtent = d3.extent(csv, function(row) { return row.SATM; });
+        // var satvExtent = d3.extent(csv, function(row) { return row.SATV; });
+        // var actExtent = d3.extent(csv,  function(row) { return row.ACT;  });
+        // var gpaExtent = d3.extent(csv,  function(row) {return row.GPA;   });    
+
+        
+        // var satExtents = {
+        // "SATM": satmExtent,
+        // "SATV": satvExtent
+        // }; 
+       
+
+        // xScale = d3.scale.linear().domain(satmExtent).range([50, 470]);
+        // var yScale = d3.scale.linear().domain(satvExtent).range([470, 30]);
+     
+        // var xScale2 = d3.scale.linear().domain(actExtent).range([50, 470]);
+        // var yScale2 = d3.scale.linear().domain(gpaExtent).range([470, 30]);
+         
+        // var xAxis = d3.svg.axis().scale(xScale);
+        // var yAxis = d3.svg.axis().scale(yScale);
+      
+        // var xAxis2 = d3.svg.axis().scale(xScale2);
+        // var yAxis2 = d3.svg.axis().scale(yScale2);
+        
+        // yAxis.orient("left");
+        // yAxis2.orient("left");
+
+     
+        // chart1 = d3.select("#chart1")
+        //                 .append("svg:svg")
+        //                 .attr("width",width)
+        //                 .attr("height",height);
+
+
+        // chart2 = d3.select("#chart2")
+        //                 .append("svg:svg")
+        //                 .attr("width",width)
+        //                 .attr("height",height);
+
+
+        //  /******************************************
+            
+        //     ADD BRUSHING CODE HERE */
+
+        // brush1 = d3.svg.brush()
+        //     .extent([0,0],[width, height])
+
+        // brushX = d3.scale.linear().range([0, width]),
+        // brushY = d3.scale.linear().range([0, height]);
+        // brush1.x(xScale).y(yScale);
+
+        // brushContainer1 = chart1.append("g")
+        //         .attr("class", "brush")
+        //         .call(brush1);
+
+        // brush1
+        //     .on("brushstart", brushstart1)
+        //     .on("brush", brushing1)
+        //     .on("brushend", brushend);
+
+
+        // brush2 = d3.svg.brush()
+        //     .extent([0,0],[width, height])
+
+        // brushX = d3.scale.linear().range([0, width]),
+        // brushY = d3.scale.linear().range([0, height]);
+        // brush2.x(xScale2).y(yScale2);
+
+        // brushContainer2 = chart2.append("g")
+        //         .attr("class", "brush")
+        //         .call(brush2);
+
+        // brush2
+        //     .on("brushstart", brushstart2)
+        //     .on("brush", brushing2)
+        //     .on("brushend", brushend);
+
+        // function brushstart1() {
+        //     chart1.selectAll("circle").classed("selected", false);
+        //     brushContainer2.call(brush2.clear());
+        // }
+
+        // function brushstart2() {
+        //     chart2.selectAll("circle").classed("selected2", false);
+        //     brushContainer1.call(brush1.clear());
+        // }
+
+        // function brushing1() {
+        //     var e = brush1.extent();
+        //     //var count = 0;
+        //     // console.log(e[0]);
+        //     // console.log(e[1]);
+        //     chart1.selectAll('circle').classed("brushed", function(d) {
+        //         // console.log(d);
+        //             return e[0][0] <= d.SATM && d.SATM <= e[1][0] &&
+        //             e[0][1] <= d.SATV && d.SATV <= e[1][1];
+        //             //count++;
+        //     });
+
+
+        //     brushed_idx1 = chart1.selectAll("circle.brushed").data();
+        //     chart2.selectAll("circle").classed("selected2", function(d) {
+        //         return brushed_idx1.includes(d);
+        //     });
+        // }
+
+        // function brushing2() {
+        //     var e = brush2.extent();
+        //     chart2.selectAll('circle').classed("brushed", function(d) {
+        //         return e[0][0] <= d.ACT && d.ACT <= e[1][0] &&
+        //             e[0][1] <= d.GPA && d.GPA <= e[1][1];
+        //     });
+
+        //     brushed_idx2 = chart2.selectAll("circle.brushed").data();
+
+        //     chart1.selectAll("circle").classed("selected", function(d) {
+        //         return brushed_idx2.includes(d);
+        //     });
+        // }
+
+
+        // function brushend() {
+
+        // }
+
+        //  /******************************************/
+
+
+        //  var temp1= chart1.selectAll("circle")
+        //    .data(csv)
+        //    .enter()
+        //    .append("circle")
+        //    .attr("id",function(d,i) {d.id = i; return i;} )
+        //    .attr("stroke", "black")
+        //    .attr("cx", function(d) { return xScale(d.SATM); })
+        //    .attr("cy", function(d) { return yScale(d.SATV); })
+        //    .attr("r", 5)
+        //    .on("click", function(d,i){ 
+        //         document.getElementById("satm").innerHTML = d.SATM;
+        //         document.getElementById("satv").innerHTML = d.SATV;
+        //         document.getElementById("act").innerHTML = d.ACT;
+        //         document.getElementById("gpa").innerHTML = d.GPA;
+                
+        //         chart1.selectAll("circle").classed("clicked", false);
+
+        //         chart2.selectAll("circle").classed("clicked", function(e) {
+        //             return e.id == d.id;
+        //         })
+        //    });
+      
+
+
+        // var temp2= chart2.selectAll("circle")
+        //    .data(csv)
+        //    .enter()
+        //    .append("circle")
+        //    .attr("id",function(d,i) {return i;} )
+        //    .attr("stroke", "black")
+        //    .attr("cx", function(d) { return xScale2(d.ACT); })
+        //    .attr("cy", function(d) { return yScale2(d.GPA); })
+        //    .attr("r", 5)
+        //    .on("click", function(d,i){ 
+        //         document.getElementById("satm").innerHTML = d.SATM;
+        //         document.getElementById("satv").innerHTML = d.SATV;
+        //         document.getElementById("act").innerHTML = d.ACT;
+        //         document.getElementById("gpa").innerHTML = d.GPA;
+
+        //         // chart1.selectAll("circle")
+        //         // .style("fill", "black")
+        //         // .style("stroke", "black");
+
+        //         // chart2.selectAll("circle")
+        //         // .style("fill", "black")
+        //         // .style("stroke", "black");
+        //         chart2.selectAll("circle").classed("clicked", false);
+        //         chart1.selectAll("circle").classed("clicked", function(e) {
+        //             return e.id == d.id;
+        //         })
+        //    });
+            
+    
+        
+        // chart1 // or something else that selects the SVG element in your visualizations
+        //     .append("g") // create a group node
+        //     .attr("transform", "translate(0,"+ (width -30)+ ")")
+        //     .call(xAxis) // call the axis generator
+        //     .append("text")
+        //     .attr("class", "label")
+        //     .attr("x", width-16)
+        //     .attr("y", -6)
+        //     .style("text-anchor", "end")
+        //     .text("SATM");
+
+        // chart1 // or something else that selects the SVG element in your visualizations
+        //     .append("g") // create a group node
+        //     .attr("transform", "translate(50, 0)")
+        //     .call(yAxis)
+        //     .append("text")
+        //     .attr("class", "label")
+        //     .attr("transform", "rotate(-90)")
+        //     .attr("y", 6)
+        //     .attr("dy", ".71em")
+        //     .style("text-anchor", "end")
+        //     .text("SATV");
+
+        // chart2 // or something else that selects the SVG element in your visualizations
+        //     .append("g") // create a group node
+        //     .attr("transform", "translate(0,"+ (width -30)+ ")")
+        //     .call(xAxis2)
+        //     .append("text")
+        //     .attr("class", "label")
+        //     .attr("x", width-16)
+        //     .attr("y", -6)
+        //     .style("text-anchor", "end")
+        //     .text("ACT");
+
+        // chart2 // or something else that selects the SVG element in your visualizations
+        //     .append("g") // create a group node
+        //     .attr("transform", "translate(50, 0)")
+        //     .call(yAxis2)
+        //     .append("text")
+        //     .attr("class", "label")
+        //     .attr("transform", "rotate(-90)")
+        //     .attr("y", 6)
+        //     .attr("dy", ".71em")
+        //     .style("text-anchor", "end")
+        //     .text("GPA");
+       
+     });
+
+
+  </script>
+  </body>
+</html>
+
